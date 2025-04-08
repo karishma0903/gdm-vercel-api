@@ -6,6 +6,6 @@
     }
   },
   "routes": [
-    { "src": "/api/predict", "dest": "api/predict.py" }
+    { "src": "/predict", "dest": "api/predict.py" }
   ]
 }
