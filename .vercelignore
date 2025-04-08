@@ -1,3 +1,9 @@
-*.pkl
+# Ignore everything by default
+*
+
+# But include only the necessary files
+!api/predict.py
 !models/classification_pca.pkl
 !models/classification_student_rf.pkl
+!requirements.txt
+!vercel.json
