@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "functions": {
+    "api/predict.py": {
+      "runtime": "python3.9"
+    }
+  },
+  "routes": [
+    { "src": "/predict", "dest": "api/predict.py" }
+  ]
+}
