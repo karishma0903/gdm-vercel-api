@@ -1,7 +1,8 @@
 # Ignore everything by default
 *
 
-# But include only the necessary files
+# But keep these:
+!api/index.py
 !api/predict.py
 !models/classification_pca.pkl
 !models/classification_student_rf.pkl
