@@ -1,6 +1,7 @@
-def handler(request):
-    return {
-        "statusCode": 200,
-        "headers": { "Content-Type": "application/json" },
-        "body": '{"message": "GDM API is live!"}'
-    }
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return jsonify({"message": "GDM API is live!"})
