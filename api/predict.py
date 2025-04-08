@@ -4,10 +4,7 @@ import numpy as np
 import os
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-model_dir = os.path.join(base_dir, "models")
-
-def model_path(file):
-    return os.path.join(model_dir, file)
+model_path = lambda f: os.path.join(base_dir, "models", f)
 
 with open(model_path("classification_pca.pkl"), "rb") as f:
     classification_pca = pickle.load(f)
@@ -20,7 +17,7 @@ def handler(request):
         return {
             "statusCode": 405,
             "body": json.dumps({"error": "Only POST method is allowed"}),
-            "headers": { "Content-Type": "application/json" }
+            "headers": {"Content-Type": "application/json"}
         }
 
     try:
@@ -31,20 +28,18 @@ def handler(request):
         ]).reshape(1, -1)
 
         features_pca = classification_pca.transform(features)
-        gdm_pred = classification_model.predict(features_pca)[0]
-        gdm_pred_class = int(round(gdm_pred))
-
-        gdm_type = "GDM Type I" if gdm_pred_class == 0 else "GDM Type II"
+        pred = classification_model.predict(features_pca)[0]
+        gdm_type = "GDM Type I" if int(round(pred)) == 0 else "GDM Type II"
 
         return {
             "statusCode": 200,
             "body": json.dumps({"gdm_type": gdm_type}),
-            "headers": { "Content-Type": "application/json" }
+            "headers": {"Content-Type": "application/json"}
         }
 
     except Exception as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"error": str(e)}),
-            "headers": { "Content-Type": "application/json" }
+            "headers": {"Content-Type": "application/json"}
         }
