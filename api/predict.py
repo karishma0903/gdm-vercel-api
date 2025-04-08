@@ -13,12 +13,6 @@ with open(model_path("classification_pca.pkl"), "rb") as f:
 with open(model_path("classification_student_rf.pkl"), "rb") as f:
     classification_model = pickle.load(f)
 
-with open(model_path("recommendation_pca.pkl"), "rb") as f:
-    recommendation_pca = pickle.load(f)
-
-with open(model_path("recommendation_student_rf.pkl"), "rb") as f:
-    recommendation_model = pickle.load(f)
-
 def handler(request):
     if request.method != "POST":
         return {
@@ -39,16 +33,10 @@ def handler(request):
 
         gdm_type = "GDM Type I" if gdm_pred_class == 0 else "GDM Type II"
 
-        rec_pca = recommendation_pca.transform(np.hstack((features, [[gdm_pred]])))
-        recommendations_raw = recommendation_model.predict(rec_pca)[0]
-        labels = ["Exercise", "Walking", "Yoga", "Low Carb diet", "Dietary Fibres", "Life style changes", "Medication"]
-        recommendations = [labels[i] for i in range(len(recommendations_raw)) if recommendations_raw[i] >= 0.5]
-
         return {
             "statusCode": 200,
             "body": json.dumps({
-                "gdm_type": gdm_type,
-                "recommendations": recommendations
+                "gdm_type": gdm_type
             }),
             "headers": {"Content-Type": "application/json"}
         }
